@@ -64,7 +64,10 @@ test.describe('Действия с правой кнопкой мыши', () => 
     const rightClickArea = page.getByText('Кликни правой кнопкой');
     const box = await rightClickArea.boundingBox();
     if (box) {
-      // твой код
+      await rightClickArea.click({
+        button: 'right',
+        position: { x: box.width / 2, y: box.height / 2 },
+      });
     }
     await expect(page.getByText('Копировать').first()).toBeVisible();
   });
@@ -81,8 +84,7 @@ test.describe('Продвинутые техники кликов', () => {
   // 3. Проверить что координаты зарегистрированы
   test('Клик в конкретных координатах регистрирует позицию', async ({ page }) => {
     const clickArea = page.getByText('Кликни в любом месте');
-    // твой код
-
+    await clickArea.click({ position: { x: 50, y: 100 } });
     await expect(page.getByText(/Позиция?/)).toHaveText(/^Позиция: \(\d+, \d+\)$/);
   });
 
@@ -94,12 +96,11 @@ test.describe('Продвинутые техники кликов', () => {
   // 5. Проверить обновление статуса
   test('Удержание кнопки изменяет статус', async ({ page }) => {
     const holdButton = page.getByText('Удерживай меня');
-
-    // твой код
+    await holdButton.dispatchEvent('mousedown');
     await expect(page.getByText('Статус: нажата')).toBeVisible();
 
     await page.waitForTimeout(1000);
-    // твой код
+    await holdButton.dispatchEvent('mouseup');
     await expect(page.getByText('Статус: отпущена')).toBeVisible();
   });
 });
