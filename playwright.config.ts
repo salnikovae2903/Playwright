@@ -38,6 +38,10 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'debug',
+      use: { ...devices['Desktop Chrome'], headless: false, timeout: 0 },
+    },
 
     /* Test against mobile viewports. */
     // {
